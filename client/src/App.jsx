@@ -38,7 +38,7 @@ const App = () => {
         setName('');
         setDescription('');
         setImgUrl('');
-        fetchBlogs(); // Fetch updated blogs after adding a new one
+        fetchBlogs(); 
       })
       .catch(error => {
         console.error('Error adding blog:', error);
@@ -72,19 +72,18 @@ const App = () => {
         setUpdatedName('');
         setUpdatedDescription('');
         setUpdatedImgUrl('');
-        fetchBlogs(); // Fetch updated blogs after updating
+        fetchBlogs(); 
       })
       .catch(error => {
         console.error('Error updating blog:', error);
       });
   };
   
-  
   const handleDelete = (id) => {
     axios.delete(`http://localhost:5000/api/blogs/${id}`)
       .then(response => {
         setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== id));
-        fetchBlogs(); // Fetch updated blogs after deleting
+        fetchBlogs(); 
       })
       .catch(error => {
         console.error('Error deleting blog:', error);
@@ -93,6 +92,9 @@ const App = () => {
 
   return (
     <div>
+      <div className="top-bar">
+        <h1>🖼️🖼️🖼️🖼️Gallery🖼️🖼️🖼️🖼️</h1>
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -114,9 +116,9 @@ const App = () => {
         />
         <button type="submit">Submit</button>
       </form>
-      <div>
+      <div className="gallery">
         {blogs.map(blog => (
-          <div key={blog.id}>
+          <div key={blog.id} className="gallery-item">
             <h2>{blog.name}</h2>
             <p>{blog.description}</p>
             <img src={blog.imgUrl} alt={blog.name} />

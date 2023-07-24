@@ -1,15 +1,13 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import UpdateBlogItem from './component/update';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
-  const [updatedName, setUpdatedName] = useState('');
-  const [updatedDescription, setUpdatedDescription] = useState('');
-  const [updatedImgUrl, setUpdatedImgUrl] = useState('');
 
   useEffect(() => {
     fetchBlogs();
@@ -18,7 +16,7 @@ const App = () => {
   const fetchBlogs = () => {
     axios.get('http://localhost:5000/api/blogs')
       .then(response => {
-        setBlogs(response.data);
+        setBlogs(response.data.map(blog => ({ ...blog, isEditing: false })));
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -45,40 +43,17 @@ const App = () => {
       });
   };
 
-  const handleUpdate = (id) => {
-    const updatedData = {
-      name: updatedName,
-      description: updatedDescription,
-      imgUrl: updatedImgUrl
-    };
-
-    axios.patch(`http://localhost:5000/api/blogs/${id}`, updatedData)
-      .then(response => {
-        setBlogs(prevBlogs => {
-          const updatedBlogs = prevBlogs.map(blog => {
-            if (blog.id === id) {
-              return {
-                ...blog,
-                name: updatedData.name,
-                description: updatedData.description,
-                imgUrl: updatedData.imgUrl
-              };
-            }
-            return blog;
-          });
-          return updatedBlogs;
-        });
-
-        setUpdatedName('');
-        setUpdatedDescription('');
-        setUpdatedImgUrl('');
-        fetchBlogs(); 
+  const handleBlogUpdate = (updatedBlog) => {
+    setBlogs(prevBlogs =>
+      prevBlogs.map(blog => {
+        if (blog.id === updatedBlog.id) {
+          return { ...blog, ...updatedBlog, isEditing: false };
+        }
+        return blog;
       })
-      .catch(error => {
-        console.error('Error updating blog:', error);
-      });
+    );
   };
-  
+
   const handleDelete = (id) => {
     axios.delete(`http://localhost:5000/api/blogs/${id}`)
       .then(response => {
@@ -122,7 +97,21 @@ const App = () => {
             <h2>{blog.name}</h2>
             <p>{blog.description}</p>
             <img src={blog.imgUrl} alt={blog.name} />
-            <button onClick={() => handleUpdate(blog.id)}>Update</button>
+
+            {blog.isEditing ? (
+              <UpdateBlogItem
+                blog={blog}
+                onUpdate={handleBlogUpdate}
+              />
+            ) : (
+              <button onClick={() => setBlogs(prevBlogs => prevBlogs.map(prevBlog => {
+                if (prevBlog.id === blog.id) {
+                  return { ...prevBlog, isEditing: true };
+                }
+                return prevBlog;
+              }))}>Update</button>
+            )}
+
             <button onClick={() => handleDelete(blog.id)}>Delete</button>
           </div>
         ))}

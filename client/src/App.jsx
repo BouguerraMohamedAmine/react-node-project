@@ -88,8 +88,9 @@ const App = () => {
           <button onClick={() => setIsLoggedIn(false)}>Log Out</button>
         ) : (
           <div>
-            <button onClick={handleLogin}>Login</button>
+            
             <button onClick={handleSignUp}>Sign Up</button>
+            <button onClick={handleLogin}>Login</button>
           </div>
         )}
       </div>
@@ -148,7 +149,7 @@ const App = () => {
           </div>
         </div>
       ) : (
-        <AuthPage onLogin={handleLogin} onSignUp={handleSignUp} />
+        <AuthPage  onSignUp={handleSignUp} onLogin={handleLogin} />
       )}
     </div>
   );

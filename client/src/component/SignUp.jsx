@@ -50,6 +50,7 @@ const SignUp = ({ onSignUp }) => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder='Your name'
             required
           />
         </div>
@@ -60,6 +61,7 @@ const SignUp = ({ onSignUp }) => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder='your email address'
             required
           />
         </div>
@@ -70,6 +72,7 @@ const SignUp = ({ onSignUp }) => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder='creat password'
             required
           />
         </div>

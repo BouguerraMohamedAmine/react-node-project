@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './css/Login.css'; 
-import axios from 'axios';
-
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,25 +9,16 @@ const Login = ({ onLogin }) => {
     event.preventDefault();
 
     try {
-      // Make an API call to the login endpoint
-      const response = await axios.post('http://localhost:5000/api/login', {
-        email,
-        password,
-      });
-
-      // Assuming the API returns a success status and a token or user data upon successful login
-      // You can update your actual API response accordingly
-      if (response.status === 200) {
+      // Simulate login logic (replace this with your actual login logic/API call)
+      // For this example, let's assume the login is successful if email and password are not empty
+      if (email && password) {
         setError(''); // Clear any previous error messages
         console.log('Form submitted:', { email, password });
-        // You can store the token or user data in localStorage or a cookie for authentication persistence
-        // For example:
-        localStorage.setItem('token', response.data.token);
+        // You can add your actual login logic/API call here
 
-        // Call the onLogin function passed as a prop to notify the parent component (App.js) of successful login
-        onLogin();
+        // After successful login, you can redirect to the dashboard page or update state accordingly
       } else {
-        setError('Invalid email or password.'); // Show error message for incorrect credentials
+        setError('Please provide both email and password.');
       }
     } catch (error) {
       setError('An error occurred while logging in.');
@@ -48,6 +37,7 @@ const Login = ({ onLogin }) => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder='Email'
             required
           />
         </div>
@@ -58,6 +48,7 @@ const Login = ({ onLogin }) => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder='password'
             required
           />
         </div>

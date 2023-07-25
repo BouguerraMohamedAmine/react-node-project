@@ -27,7 +27,7 @@
     margin-bottom: 5px;
   }
   
-  .signup-container input[type="text"],
+  .signup-container input[type="text"],placeholder[type="text"] 
   .signup-container input[type="email"],
   .signup-container input[type="password"] {
     padding: 10px;

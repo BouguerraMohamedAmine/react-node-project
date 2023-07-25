@@ -16,8 +16,7 @@ const UpdateBlogItem = ({ blog, onUpdate }) => {
     axios
       .patch(`http://localhost:5000/api/blogs/${blog.id}`, updatedData)
       .then(response => {
-        onUpdate(response.data); // Notify parent component about the update
-        // Clear the update input fields after update
+        onUpdate(response.data); 
         setUpdatedName("");
         setUpdatedDescription("");
         setUpdatedImgUrl("");
